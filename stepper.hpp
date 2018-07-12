@@ -55,7 +55,7 @@
 #define OVERWRITE true //une nouvelle commande peut être accepté avant la fin de la premiére
 #define PROTECTED false //Toutes nouvelles commandes est ignoré tant qu'une est active
 
-extern DigitalOut led1; //Debug led <- main.cpp
+//extern DigitalOut led1; //Debug led <- main.cpp
 
 class Stepper
 {
@@ -65,6 +65,7 @@ class Stepper
     ~Stepper();                                                                 //Destructeur
     /*** Getter d'etat ***/
     bool is_running() {return run;}                                             //Renvoie si le moteur effectue une commande ou non
+    int get_pos() {return pos;}                                                 //Renvoie la position du stepper
     /*** Modificateurs de paramètres ***/
     void set_mode(bool n_mode) {mode=n_mode;}                                   //Permet de changer le mode du stepper cf MACROS DE MODE
     void set_accel(unsigned int rpms)                                           //Modifie l'acceleration du stepper
@@ -91,6 +92,8 @@ class Stepper
     int rpm;                                                                    // vitesse du stepper
     float acc;                                                                  // accélération du stepper
     float c0;                                                                   //délai initial
+    
+    int pos;                                                                    //position absolue en nombre de pas
     
     /*** mouvement settings ***/
     bool direction;                                                             // indique la direction du mouvement

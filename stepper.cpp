@@ -23,6 +23,7 @@ Stepper::Stepper(DigitalInOut n_step,DigitalInOut n_dir):step_pin(n_step),dir_pi
     step_delay=1;
     step_required=0;
     step=0;
+    pos=0;
     mode=PROTECTED;
     
     rpm=300;
@@ -117,6 +118,8 @@ void Stepper::make_step()
             while(step<step_required)
             {
                 step++;
+                if(direction)pos++;
+                else pos--;
                 switch(state)
                 {
                     case FIRST_STEP:
