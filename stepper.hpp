@@ -24,7 +24,7 @@
 * SOFTWARE.
 *******************************************************************************/
 
-         //***   **Version 1.1**  **Revisions 20/06/2018** ***//
+         //***   **Version 1.3**  **Revisions 08/09/2018** ***//
          
 /*******************************************************************************
 *   
@@ -54,8 +54,13 @@
 /*** MACROS DE MODE ***/
 #define OVERWRITE true //une nouvelle commande peut être accepté avant la fin de la premiére
 #define PROTECTED false //Toutes nouvelles commandes est ignoré tant qu'une est active
+/*** MACROS DE DEBUG - DECOMMENTER POUR ACTIVER ***/
+//#define DEBUG
+//#define DEBUG_VERBOSE
 
-//extern DigitalOut led1; //Debug led <- main.cpp
+#ifndef DEBUG
+extern DigitalOut led1; //Debug led <- main.cpp
+#endif
 
 class Stepper
 {

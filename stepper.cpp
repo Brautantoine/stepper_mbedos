@@ -80,8 +80,9 @@ int Stepper::move(int nb_step)
             dir_pin=0;
             step_required=-nb_step;
         }
-        
-        //printf("nouvelle commande, dir : %d, step : %-d\n",direction,step_required); // DEBUG
+        #ifndef DEBUG_VERBOSE
+        printf("nouvelle commande, dir : %d, step : %-d\n",direction,step_required); // DEBUG
+        #endif
        
        /*** lancement du mouvement ***/ 
         run=true;
@@ -106,8 +107,12 @@ void Stepper::make_step()
     /*** debut de boucle ***/
     while(thread_is_running){
         if(run){
-            //printf("debut de commande\n");                                    // DEBUG
-            //led1=!led1;                                                       //DEBUG
+            #ifndef DEBUG_VERBOSE
+            printf("debut de commande\n");                                      // DEBUG
+            #endif
+            #ifndef DEBUG
+            led1=!led1;                                                         //DEBUG
+            #endif
             clast=c0;
             step=0;
             step_middle=step_required/2;
@@ -159,8 +164,12 @@ void Stepper::make_step()
                 elapsed_time+=step_delay;
             }
             run=false;
-            //led1=!led1;                                                       // DEBUG
-            //printf("fin de commande\n");                                      // DEBUG
+            #ifndef DEBUG
+            led1=!led1;                                                         // DEBUG
+            #endif
+            #ifndef DEBUG_VERBOSE
+            printf("fin de commande\n");                                        // DEBUG
+            #endif
         }
     
     }
