@@ -28,14 +28,14 @@
          
 /*******************************************************************************
 *   
-*   Cette librairie décrit la class stepper, utilisée pour contrôler un
+*   Cette librairie dÃ©crit la class stepper, utilisÃ©e pour contrÃ´ler un
 *   stepper avec un pin de pulse et de direction en drain ouvert.
-*   L'acceleration est traité de maniére linéaire avec une gestion de la
+*   L'acceleration est traitÃ© de maniÃ©re linÃ©aire avec une gestion de la
 *   vitesse maximum.
-*   Matériel de test:
-*   µc : nucleo-144 F767ZI
+*   MatÃ©riel de test:
+*   Âµc : nucleo-144 F767ZI
 *   stepper : nema 23 57HS76 2 phase hybrid stepper
-*   Contrôleur de stepper : MB4550A
+*   ContrÃ´leur de stepper : MB4550A
 *
 *******************************************************************************/
 
@@ -52,13 +52,13 @@
 #define DEC 2
 #define CONST 3
 /*** MACROS DE MODE ***/
-#define OVERWRITE true //une nouvelle commande peut être accepté avant la fin de la premiére
-#define PROTECTED false //Toutes nouvelles commandes est ignoré tant qu'une est active
+#define OVERWRITE true //une nouvelle commande peut Ãªtre acceptÃ© avant la fin de la premiÃ©re
+#define PROTECTED false //Toutes nouvelles commandes est ignorÃ© tant qu'une est active
 /*** MACROS DE DEBUG - DECOMMENTER POUR ACTIVER ***/
 //#define DEBUG
 //#define DEBUG_VERBOSE
 
-#ifndef DEBUG
+#ifdef DEBUG
 extern DigitalOut led1; //Debug led <- main.cpp
 #endif
 
@@ -71,13 +71,13 @@ class Stepper
     /*** Getter d'etat ***/
     bool is_running() {return run;}                                             //Renvoie si le moteur effectue une commande ou non
     int get_pos() {return pos;}                                                 //Renvoie la position du stepper
-    /*** Modificateurs de paramètres ***/
+    /*** Modificateurs de paramÃ¨tres ***/
     void set_mode(bool n_mode) {mode=n_mode;}                                   //Permet de changer le mode du stepper cf MACROS DE MODE
     void set_accel(unsigned int rpms)                                           //Modifie l'acceleration du stepper
-        {acc=rpms;c0=0.676f*(float)FREQ*sqrt((2*ANGLE)/(float)acc);}            /** Recalcule le délai du premier step **/
+        {acc=rpms;c0=0.676f*(float)FREQ*sqrt((2*ANGLE)/(float)acc);}            /** Recalcule le dÃ©lai du premier step **/
     void set_rpm(unsigned int n_rpm) {rpm=n_rpm;}                               //Modifie la vitesse du stepper
     /*** Actionneur ***/
-    int move(int nb_step);                                                      //Effectue le nombre de step demandé
+    int move(int nb_step);                                                      //Effectue le nombre de step demandÃ©
     void kill();                                                                //Stop le stepper
     
     /*** Nombre de stepper actif ***/
@@ -85,7 +85,7 @@ class Stepper
     
     private:
     
-    void make_step();                                                           //Effectue le nombre de step demandé en controlant l'accélération (S'execute sur un thread secondaires tant que l'instance est présente) 
+    void make_step();                                                           //Effectue le nombre de step demandÃ© en controlant l'accÃ©lÃ©ration (S'execute sur un thread secondaires tant que l'instance est prÃ©sente) 
     
     /*** Stepper settings ***/
     DigitalInOut step_pin;                                                      // Pin effectuant les pulses de step
@@ -95,24 +95,24 @@ class Stepper
     bool mode;                                                                  // Indique le mode de fonctionnement (cf MACRO DE MODE)
     
     int rpm;                                                                    // vitesse du stepper
-    float acc;                                                                  // accélération du stepper
-    float c0;                                                                   //délai initial
+    float acc;                                                                  // accÃ©lÃ©ration du stepper
+    float c0;                                                                   //dÃ©lai initial
     
     int pos;                                                                    //position absolue en nombre de pas
     
     /*** mouvement settings ***/
     bool direction;                                                             // indique la direction du mouvement
     int step_required;                                                          // indique le nombre de step du mouvement 
-    int step;                                                                   // indique le nombre de step effectué
+    int step;                                                                   // indique le nombre de step effectuÃ©
     float  step_delay;                                                          // indique le delai avant le prochain step
     
     /*** Thread ***/
-    Thread step_thread;                                                         // thread du génération de mouvement du stepper
+    Thread step_thread;                                                         // thread du gÃ©nÃ©ration de mouvement du stepper
     bool thread_is_running;                                                     // indique si le thread doit continuer ou non
     
     /*** Constante ***/
     static const float ANGLE=0.0157;                                            // angle d'un step en radian
-    static const long FREQ=1*10^6;                                              // fréquence du timer (arbitraire)
+    static const long FREQ=1*10^6;                                              // frÃ©quence du timer (arbitraire)
 };
 
 #endif
