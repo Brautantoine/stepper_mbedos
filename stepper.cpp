@@ -17,7 +17,7 @@ Stepper::Stepper(DigitalInOut n_step,DigitalInOut n_dir):step_pin(n_step),dir_pi
     step_pin.mode(OpenDrain);
     dir_pin.mode(OpenDrain);
     
-    /// settings par défaut ///
+    /// settings par dÃ©faut ///
     direction=true;
     run=false;
     step_delay=1;
@@ -59,15 +59,15 @@ void Stepper::kill()
 }
 ///   move     ///
 // commande un nombre de step au stepper
-// \param : nb_step -> indique le nombre de step, un nombre négatif produit un mouvement dans l'autre sens
-// \return : 0 -> commande accepté, 1 -> commande refusé
+// \param : nb_step -> indique le nombre de step, un nombre nÃ©gatif produit un mouvement dans l'autre sens
+// \return : 0 -> commande acceptÃ©, 1 -> commande refusÃ©
 ///            ///
 int Stepper::move(int nb_step)
 {
     int ret(0);
 
     if(!run||mode){
-        /*** mise à jour de la direction ***/
+        /*** mise Ã  jour de la direction ***/
         if(nb_step>=0)
         {
             direction=true;
@@ -80,7 +80,7 @@ int Stepper::move(int nb_step)
             dir_pin=0;
             step_required=-nb_step;
         }
-        #ifndef DEBUG_VERBOSE
+        #ifdef DEBUG_VERBOSE
         printf("nouvelle commande, dir : %d, step : %-d\n",direction,step_required); // DEBUG
         #endif
        
@@ -93,7 +93,7 @@ int Stepper::move(int nb_step)
     
 }
 ///  make_step  ///
-// Fonction de génération des steps
+// Fonction de gÃ©nÃ©ration des steps
 // S'execute sur avec un thread secondaire
 //
 ///             ///
@@ -107,10 +107,10 @@ void Stepper::make_step()
     /*** debut de boucle ***/
     while(thread_is_running){
         if(run){
-            #ifndef DEBUG_VERBOSE
+            #ifdef DEBUG_VERBOSE
             printf("debut de commande\n");                                      // DEBUG
             #endif
-            #ifndef DEBUG
+            #ifdef DEBUG
             led1=!led1;                                                         //DEBUG
             #endif
             clast=c0;
@@ -150,7 +150,7 @@ void Stepper::make_step()
                         step_pin=1;
                         wait_us(20);
                         step_pin=0;
-                        step_delay=clast-((2.f*clast)/((4.f*((float)step_middle-(float)step)*4.f)+1.f)); // Le *4.f sort de nul part mais ça marche bien
+                        step_delay=clast-((2.f*clast)/((4.f*((float)step_middle-(float)step)*4.f)+1.f)); // Le *4.f sort de nul part mais Ã§a marche bien
                         break;
                     case CONST:
                         step_pin=1;
@@ -164,10 +164,10 @@ void Stepper::make_step()
                 elapsed_time+=step_delay;
             }
             run=false;
-            #ifndef DEBUG
+            #ifdef DEBUG
             led1=!led1;                                                         // DEBUG
             #endif
-            #ifndef DEBUG_VERBOSE
+            #ifdef DEBUG_VERBOSE
             printf("fin de commande\n");                                        // DEBUG
             #endif
         }
